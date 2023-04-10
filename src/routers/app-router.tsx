@@ -1,4 +1,4 @@
-import { RouterType } from "../types/router-type.type"
+import { RouterType } from "../types/menu-type.type"
 
 export const AppRouters: RouterType[] = [
     {

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { RouterType } from "../types/router-type.type";
+import { RouterType } from "../types/menu-type.type";
 import { Route } from "react-router-dom";
 
 export default function GenerateRouter(routers: RouterType[]) : ReactNode {
