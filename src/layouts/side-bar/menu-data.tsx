@@ -11,7 +11,14 @@ const MenuData: MenuType[] = [
     icon: <AiIcons.AiFillHome />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
-    subMenu: [],
+    subMenu: [{
+      title: "sub 1",
+      path: "/sub-1",
+      iconClosed: <></>,
+      iconOpened: <></>,
+      icon: <></>,
+      subMenu: [],
+    },],
   },
   {
     title: "Doanh Thu",

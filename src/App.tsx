@@ -1,16 +1,18 @@
 import SideBar from "./layouts/side-bar/side-bar.component";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
 import Header from "./layouts/header/header.component";
+import Router from "./layouts/routers/routers.components";
+import SideBar2 from "./layouts/side-bar/side-bar2.component";
+import { Layout } from "antd";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SideBar />}>
-          <Route index element={<h1>Home test</h1>}></Route>
-          <Route path="doanhthu" element={<h1>Home doanhthu</h1>}></Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Layout style={{ minHeight: "100vh" }}>
+      <SideBar2></SideBar2>
+      <Layout className="site-layout">
+        <Header></Header>
+        <Router></Router>
+      </Layout>
+    </Layout>
 export default App;
