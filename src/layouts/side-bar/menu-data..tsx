@@ -16,9 +16,9 @@ function getMenu(
   } as MenuItem;
 }
 
-const Menus: MenuItem[] = [
+const MenuData: MenuItem[] = [
   getMenu("Option 1", "/doanhthu", <h1>tesst</h1>),
-  getMenu("Option 2", "2", <h1>Option2</h1>),
+  getMenu("Login", "login", <h1>Option2</h1>),
   getMenu("User", "sub1", <h1>Option1</h1>, [
     getMenu("Tom", "3"),
     getMenu("Bill", "4"),
@@ -31,4 +31,4 @@ const Menus: MenuItem[] = [
   getMenu("Files", "9", <h1>sub3</h1>),
 ];
 
-export default Menus;
+export default MenuData;

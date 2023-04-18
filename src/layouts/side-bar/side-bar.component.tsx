@@ -1,24 +1,40 @@
+import { Menu } from "antd";
+import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
-import { IconContext } from "react-icons";
-import MenuData from "./menu-data";
-import Menu from "./menu/menu.component";
-import "./side-bar.style.scss";
+import MenuData from "./menu-data.";
+import "./side-bar.styles.scss";
+import { useNavigate } from "react-router-dom";
+import ReactLogo from "../../assets/react.svg";
 
-export default function SideBar() {
-  const [isCollapsed, setCollapse] = useState(false);
+const SideBar2 = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
-  const collapseSideBar = () => {
-    setCollapse(!isCollapsed);
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
   };
+  fetch("https://localhost:7139/api/product", requestOptions)
+    .then((response) => console.log(response.json()));
   return (
-    <IconContext.Provider value={{ color: "white" }}>
-      <div className={`side-bar ${isCollapsed ? "collapse" : ""}`}>
-        <div style={{ width: "100%" }}>
-          {MenuData.map((item, index) => {
-            return <Menu menu={item} key={index} />;
-          })}
-        </div>
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      className="menu-theme"
+    >
+      <div className="logo">
+        <img src={ReactLogo} alt="React Logo" />
       </div>
-    </IconContext.Provider>
+      <Menu
+        onClick={({ key }) => navigate(key)}
+        defaultSelectedKeys={["1"]}
+        mode="inline"
+        items={MenuData}
+        className="menu-container"
+      />
+    </Sider>
   );
-}
+};
+
+export default SideBar2;
