@@ -1,4 +1,6 @@
 import { MenuProps } from "antd";
+import { AiFillSkin, AiFillHome } from "react-icons/ai";
+import { GiReceiveMoney} from 'react-icons/gi';
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -17,18 +19,9 @@ function getMenu(
 }
 
 const MenuData: MenuItem[] = [
-  getMenu("Option 1", "/doanhthu", <h1>tesst</h1>),
-  getMenu("Login", "login", <h1>Option2</h1>),
-  getMenu("User", "sub1", <h1>Option1</h1>, [
-    getMenu("Tom", "3"),
-    getMenu("Bill", "4"),
-    getMenu("Alex", "5"),
-  ]),
-  getMenu("Team", "sub2", <h1>sub2</h1>, [
-    getMenu("Team 1", "6"),
-    getMenu("Team 2", "8"),
-  ]),
-  getMenu("Files", "9", <h1>sub3</h1>),
+  getMenu('Dashboard', '', <AiFillHome />),
+  getMenu('Kho', 'management', <AiFillSkin />),
+  getMenu('Doanh thu', 'revenue', <GiReceiveMoney />)
 ];
 
 export default MenuData;
