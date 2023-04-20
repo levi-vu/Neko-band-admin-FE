@@ -6,8 +6,8 @@ import "./side-bar.styles.scss";
 import {useNavigate} from "react-router-dom";
 import ReactLogo from "../../assets/react.svg";
 
-const SideBar2 = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const SideBar = () => {
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   const navigate = useNavigate();
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} className='menu-theme' breakpoint='xs'>
@@ -19,4 +19,4 @@ const SideBar2 = () => {
   );
 };
 
-export default SideBar2;
+export default SideBar;
