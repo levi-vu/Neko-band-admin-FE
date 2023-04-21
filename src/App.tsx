@@ -10,7 +10,7 @@ const App = () => {
       <SideBar></SideBar>
       <Layout className="site-layout">
         <Header></Header>
-        <Router></Router>
+        <div className="content"><Router></Router></div>
       </Layout>
     </Layout>
 export default App;

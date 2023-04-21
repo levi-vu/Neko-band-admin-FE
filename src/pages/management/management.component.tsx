@@ -9,8 +9,14 @@ export default function Management() {
   const [data, setData] = useState<ProductType[]>([]);
 
   useEffect(() => {
-    axios.get<ResponseType<ProductType[]>>("https://localhost:7139/api/product").then((res) => setData(res.data.result));
-  }, []);
+    axios.get<ResponseType<ProductType[]>>("https://localhost:7139/api/product").then((res) => {
+      let a: ProductType[] = [];
+      for (let i = 0; i < 100; ++i) {
+        a.push(res.data.result[0]);
+      }
+      return setData(a);
+    }
+  )}, []);
   return (
     <>
       <Filter />

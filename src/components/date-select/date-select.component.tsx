@@ -1,14 +1,14 @@
 import { useState } from "react";
-import DatePicker from "react-datepicker";
+import { DatePicker as RangePicker} from 'antd';
 
 import "react-datepicker/dist/react-datepicker.css";
 import './date-select.styles.scss';
 
-function DateSelect() {
+function DatePicker() {
     const [startDate, setStartDate] = useState(new Date());
     return (
-      <DatePicker selected={startDate} onChange={(date: Date) => setStartDate(date)} />
+      <RangePicker />
     );
 }
 
-export default DateSelect;
+export default DatePicker;

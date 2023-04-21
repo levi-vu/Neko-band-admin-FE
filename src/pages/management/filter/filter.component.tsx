@@ -1,5 +1,5 @@
 import ButtonCreate from "../../../components/button-create/button-create.component";
-import DateSelect from "../../../components/date-select/date-select.component";
+import DatePicker from "../../../components/date-select/date-select.component";
 import "./filter.styles.scss";
 
 export default function Filter() {
@@ -12,8 +12,8 @@ export default function Filter() {
         className="input"
       ></input>
 
-      <DateSelect />
-      <DateSelect />
+      <DatePicker />
+
       <ButtonCreate />
     </div>
   );

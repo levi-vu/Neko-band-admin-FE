@@ -1,6 +1,7 @@
 import { Table as TableAntd } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { ProductType } from "../../types/product.type";
+import './table.styles.scss';
 
 const columns: ColumnsType<ProductType> = [
   {
@@ -29,8 +30,10 @@ function Table({ data }: TableProps) {
 
   return (
     <TableAntd
+      size="middle"
       columns={columns}
       dataSource={data}
+    
       //onChange={onChange}
     />
   );
