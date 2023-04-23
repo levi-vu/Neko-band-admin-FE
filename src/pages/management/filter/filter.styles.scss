@@ -1,30 +1,6 @@
-// button {
-//     padding: 10px 10px;
-//     font-size: 12px;
-//     text-transform: uppercase;
-//     letter-spacing: 2.5px;
-//     font-weight: 500;
-//     color: #000;
-//     background-color: #fff;
-//     border: none;
-//     border-radius: 45px;
-//     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-//     transition: all 0.3s ease 0s;
-//     cursor: pointer;
-//     outline: none;
-//     width: 80px;
-//   }
-
-//   button:hover {
-//     background-color: #23c483;
-//     box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-//     color: #fff;
-//     transform: translateY(-7px);
-//   }
-
-//   button:active {
-//     transform: translateY(-1px);
-//   }
+.filter-container {
+  justify-content: space-around;
+}
 
 .button-create {
   border: 2px solid #24b4fb;
@@ -48,9 +24,7 @@
   background-color: #0071e2;
 }
 
-.input {
-  width: 100%;
-  max-width: 220px;
+.search-box {
   height: 45px;
   padding: 12px;
   border-radius: 12px;
@@ -58,17 +32,16 @@
   outline: none;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0px 0px 20px -18px;
-}
+  width: 20rem;
+  :hover {
+    border: 2px solid lightgrey;
+    box-shadow: 0px 0px 20px -17px;
+  }
+  :active {
+    transform: scale(0.95);
+  }
 
-.input:hover {
-  border: 2px solid lightgrey;
-  box-shadow: 0px 0px 20px -17px;
-}
-
-.input:active {
-  transform: scale(0.95);
-}
-
-.input:focus {
-  border: 2px solid grey;
+  :focus {
+    border: 2px solid grey;
+  }
 }

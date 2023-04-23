@@ -4,17 +4,14 @@ import "./filter.styles.scss";
 
 export default function Filter() {
   return (
-    <div className="div-flex">
+    <div className="filter-container">
       <input
         placeholder="Search Id, Name..."
         type="text"
         name="text"
-        className="input"
+        className="search-box"
       ></input>
-
-      <DatePicker />
-
-      <ButtonCreate />
+      <ButtonCreate/>
     </div>
   );
 }

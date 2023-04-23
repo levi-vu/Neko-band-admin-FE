@@ -2,11 +2,11 @@ body {
   margin: unset;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
-.layout{
+.layout {
   min-height: 100vh;
 }
 
@@ -16,4 +16,9 @@ body {
 
 .content {
   padding: 10px;
+  height: 100%;
+}
+
+.ant-alert{
+  height: fit-content;
 }

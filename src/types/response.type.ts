@@ -1,5 +1,5 @@
 export type ResponseType<T> = {
-   result: T;
-    isSuccess: boolean;
-    errorMessage: string;
+  result: T;
+  isSuccess: boolean;
+  errorMessage: string;
 };

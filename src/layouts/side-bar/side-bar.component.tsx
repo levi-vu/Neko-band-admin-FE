@@ -14,7 +14,7 @@ const SideBar = () => {
       <div className='logo'>
         <img src={ReactLogo} alt='React Logo' />
       </div>
-      <Menu onClick={({key}) => navigate(key)} defaultSelectedKeys={["management"]} mode='inline' items={MenuData} theme='dark' />
+      <Menu onClick={({key}) => navigate(key)} defaultSelectedKeys={["form"]} mode='inline' items={MenuData} theme='dark' />
     </Sider>
   );
 };

@@ -23,7 +23,7 @@ const columns: ColumnsType<ProductType> = [
 ];
 
 type TableProps = {
-  data: ProductType[];
+  data: ProductType[] | undefined;
 };
 function Table({ data }: TableProps) {
   //, onChange: TableProps<ProductType>['onChange']) {
