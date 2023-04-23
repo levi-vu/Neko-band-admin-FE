@@ -6,7 +6,6 @@ import { PopupType } from "../../../types/popup.type";
 
 export default function Filter() {
   const [openCreatePopup, setOpenCreatePopup] = useState(false);
-
   const popupCreateProps: PopupType = {
     isOpen: openCreatePopup,
     title: "Tạo sản phẩm",

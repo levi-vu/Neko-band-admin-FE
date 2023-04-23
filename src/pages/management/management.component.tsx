@@ -10,8 +10,17 @@ const Filter = React.lazy(() => import('./filter/filter.component'));
 const Table = React.lazy(() => import('../../components/table/table.component'));
 
 
-export default function Management() {
+const Filter = React.lazy(() => import('./filter/filter.component'));
   const {isLoading, error, data } = useQuery<ResponseType<ProductType[]>>('get-products', async () => await getProducts());
+  if(isLoading) return <Loading />;
+
+  if(error) return <Warning/>;
+ 
+    } ;
+    for( let i = 0; i < 100; i++) {
+      temp.result.push(res.result[0]);
+      console.log(temp);
+  }));
   if(isLoading) return <Loading />;
 
   if(error) return <Warning/>;
