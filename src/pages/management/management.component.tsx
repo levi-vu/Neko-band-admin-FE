@@ -11,18 +11,7 @@ const Table = React.lazy(() => import('../../components/table/table.component'))
 
 
 export default function Management() {
-  const {isLoading, error, data } = useQuery<ResponseType<ProductType[]>>('get-products', async () => await getProducts().then(res => {
-    let temp :ResponseType<ProductType[]> = {
-      result:res.result,
-      isSuccess: false,
-      errorMessage: ""
-    } ;
-    for( let i = 0; i < 100; i++) {
-      temp.result.push(res.result[0]);
-      console.log(temp);
-    }
-    return  temp;
-  }));
+  const {isLoading, error, data } = useQuery<ResponseType<ProductType[]>>('get-products', async () => await getProducts());
   if(isLoading) return <Loading />;
 
   if(error) return <Warning/>;
