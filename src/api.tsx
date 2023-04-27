@@ -1,6 +1,6 @@
-import { TypeProduct } from "./types/TypeProduct.type";
-import { ProductType } from "./types/product.type";
-import { ResponseType } from "./types/response.type";
+import { TypeProduct } from "./models/interfaces/TypeProduct.";
+import { ProductType } from "./models/interfaces/product.";
+import { ResponseType } from "./models/interfaces/response.";
 import httpHelper from "./utils/http-helper";
 
 export const getProducts = async (): Promise<ResponseType<ProductType[]>> => {

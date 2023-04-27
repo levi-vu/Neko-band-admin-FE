@@ -1,24 +1,33 @@
-import {Form, Input, Select} from "antd";
+import { Button, Form, Input, Select } from "antd";
 import NumericInput from "../../../components/numeric-input/numeric-input.component";
-import {useQuery} from "react-query";
-import {getTypes} from "../../../api";
-import {TypeProduct} from "../../../types/TypeProduct.type";
+import { useQuery } from "react-query";
+import { getTypes } from "../../../api";
+import { TypeProduct } from "../../../models/interfaces/TypeProduct.";
 import Loading from "../../../components/loading/loading.component";
 import Warning from "../../../components/warning/warning.component";
+import { useRef } from "react";
+import type { FormInstance } from 'antd/es/form';
 
-const {Option} = Select;
+const { Option } = Select;
 
 function CreateProduct() {
-  const {isLoading, error, data: types} = useQuery<TypeProduct[]>("get-types", async () => await getTypes().then((res) => res.result));
-  return <Loading />;
+  const formRef = useRef<FormInstance>(null);
+  const { isLoading, error, data: types } = useQuery<TypeProduct[]>("get-types", async () => await getTypes().then((res) => res.result));
+  if (isLoading) return <Loading />;
 
   if (error) return <Warning />;
+
+  const onReset = () => {
+    formRef.current?.resetFields();
+  };
+
+
   return (
-    <Form>
-      <Form.Item label='Tên' name='name' rules={[{required: true, message: "Tên không được để trống"}]}>
+    <Form ref={formRef}>
+      <Form.Item label='Tên' name='name' rules={[{ required: true, message: "Tên không được để trống" }]}>
         <Input />
       </Form.Item>
-      <Form.Item label='Giá' name='price' rules={[{required: true, message: "Giá Không được trống"}]}>
+      <Form.Item label='Giá' name='price' rules={[{ required: true, message: "Giá Không được trống" }]}>
         <NumericInput
           onChange={function (value: string): void {
             throw new Error("Function not implemented.");
@@ -43,6 +52,14 @@ function CreateProduct() {
             </Option>
           ))}
         </Select>
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type='primary' htmlType='submit'>
+          Submit
+        </Button>
+        <Button htmlType='button' onClick={onReset}>
+          Reset
+        </Button>
       </Form.Item>
     </Form>
   );

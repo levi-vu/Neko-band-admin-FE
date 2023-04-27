@@ -15,19 +15,20 @@
     inset-inline-end: 17px;
     color: rgba(0, 0, 0, 0.45);
     font-weight: 600;
-    line-height: 1;
+    font-size: 22px;
     text-decoration: none;
     background: 0 0;
     border-radius: 4px;
-    width: 22px;
-    height: 22px;
     border: 0;
     outline: 0;
     cursor: pointer;
-    transition: color 0.2s, background-color 0.2s;
-    margin: 5px 5px 0 0;
     float: right;
   }
+
+  .button-close:hover {
+    background: #ede4e4;
+  }
+
 
   .popup-content {
     background-color: #fff;
@@ -36,12 +37,23 @@
     border-radius: 8px;
     box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
     pointer-events: auto;
+    position: relative;
   }
 
-  .popup-title {
+  .popup-header {
     margin: 5px;
     height: 10%;
+
+    .popup-title {
+      margin-left: 10px;
+      color: rgba(0, 0, 0, .88);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
   }
+
 
   .popup-body {
     height: 90%;
