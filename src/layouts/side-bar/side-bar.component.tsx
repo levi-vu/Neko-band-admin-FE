@@ -1,26 +1,22 @@
-import { useState } from "react";
-import "./side-bar.style.scss";
-import { IconContext } from "react-icons";
-import SideBarNav from "./side-bar-nav/side-bar-nav.component";
-import { Link, Outlet } from "react-router-dom";
-import { AiOutlineHome } from "react-icons/ai";
+import {Menu} from "antd";
+import Sider from "antd/es/layout/Sider";
+import {useState} from "react";
+import MenuData from "./menu-data.";
+import "./side-bar.styles.scss";
+import {useNavigate} from "react-router-dom";
+import ReactLogo from "../../assets/react.svg";
 
-export default function SideBar() {
-  const [collapse, setCollapse] = useState(false);
-
-  const collapseSideBar = () => {
-    setCollapse(!collapse);
-  };
+const SideBar = () => {
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const navigate = useNavigate();
   return (
-    <>
-      <IconContext.Provider value={{ color: "white" }}>
-        <div className="header-container">
-          <Link to="/">
-            <AiOutlineHome className="icon-home" />
-          </Link>
-        </div>
-        <SideBarNav isCollapsed={collapse} collapseHandler={collapseSideBar} />
-      </IconContext.Provider>
-    </>
+    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} className='menu-theme' breakpoint='xs'>
+      <div className='logo'>
+        <img src={ReactLogo} alt='React Logo' />
+      </div>
+      <Menu onClick={({key}) => navigate(key)} defaultSelectedKeys={["form"]} mode='inline' items={MenuData} theme='dark' />
+    </Sider>
   );
-}
+};
+
+export default SideBar;

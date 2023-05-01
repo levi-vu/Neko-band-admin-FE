@@ -2,6 +2,23 @@ body {
   margin: unset;
 }
 
-.layout{
+* {
+  box-sizing: border-box;
+}
+
+.layout {
   min-height: 100vh;
+}
+
+.div-flex {
+  display: flex;
+}
+
+.content {
+  padding: 10px;
+  height: 100%;
+}
+
+.ant-alert{
+  height: fit-content;
 }
