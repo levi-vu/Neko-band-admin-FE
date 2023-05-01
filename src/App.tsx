@@ -8,11 +8,13 @@ const App = () => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideBar></SideBar>
-      <Layout className="site-layout">
+      <Layout className='site-layout'>
         <Header></Header>
-        <div className="content">
+        <div className='content'>
           <Router></Router>
         </div>
       </Layout>
     </Layout>
+  );
+};
 export default App;
