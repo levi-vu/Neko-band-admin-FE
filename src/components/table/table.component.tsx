@@ -1,6 +1,6 @@
 import { Table as TableAntd } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { Product } from "../../models/interfaces/product.";
+import { Product } from "../../models/interfaces/product.model";
 import "./table.styles.scss";
 
 type TableProps = {

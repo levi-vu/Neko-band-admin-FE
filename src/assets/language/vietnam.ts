@@ -12,8 +12,10 @@ export const Language = {
     sell: 'Bán',
     addNew: 'Thêm mới',
     type: 'Loại',
+    source: 'Nguồn',
     selectType: 'Chọn loại sản phẩm',
-    existed: 'Đã tồn tại',
+    selectSource: 'Chọn nguồn sản phẩm',
+    existedOrEmpty: 'Lựa chọn mới đã tồn tại hoặc để trống',
     notAccessEmpty: 'Không được để trống',
     required: '(Bắt buộc)'
 
