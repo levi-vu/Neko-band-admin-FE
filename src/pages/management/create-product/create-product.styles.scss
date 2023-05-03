@@ -1,0 +1,10 @@
+.source-price {
+    display: inline-block;
+    width: calc(50%);
+    margin-left: 8px;
+}
+
+.price {
+    display: inline-block;
+    width: calc(50% - 8px);
+}

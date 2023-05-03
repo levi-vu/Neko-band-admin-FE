@@ -3,37 +3,19 @@ import type { ColumnsType } from "antd/es/table";
 import { Product } from "../../models/interfaces/product.";
 import "./table.styles.scss";
 
-const columns: ColumnsType<Product> = [
-  {
-    title: "Id",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    key:"name"
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    key: "type",
-    render: (text, record) => record.types.map(type => type.typeName).join(', ')
-  },
-];
-
 type TableProps = {
   data: Product[] | undefined;
+  columns: ColumnsType<Product>;
 };
-function Table({ data }: TableProps) {
+function Table({ data , columns }: TableProps) {
   //, onChange: TableProps<ProductType>['onChange']) {
 
   return (
     <TableAntd
-      size='middle'
+      size='small'
       columns={columns}
       dataSource={data}
-
+      rowKey={'id'}
       //onChange={onChange}
     />
   );

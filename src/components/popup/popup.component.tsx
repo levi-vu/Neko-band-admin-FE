@@ -2,14 +2,14 @@ import { PopupType } from "../../models/types/popup.type";
 import "./popup.styles.scss";
 
 function Popup(props: PopupType) {
-  const { isOpen, title, width, content, handleActionClose } = props;
+  const { isOpen, title, content, handleActionClose } = props;
   return (
     <>
       {isOpen ? (
         <div>
           <div className='popup-backdrop'></div>
           <div className='popup'>
-            <div className='popup-content' style={{ width: width }}>
+            <div className='popup-content'>
               <div className='popup-header'>
                 <span className='popup-title'>{title}</span>
                 <button className='button-close' onClick={() => handleActionClose(false)}>
