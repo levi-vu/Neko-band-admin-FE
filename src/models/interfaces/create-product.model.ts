@@ -11,4 +11,5 @@ export interface CreateProductRequest {
     types: TypeProduct[];
     sourceId: number;
     source: Source;
+    listUrlImage: string[];
 }

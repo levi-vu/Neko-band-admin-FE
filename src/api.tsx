@@ -14,9 +14,9 @@ export const getInitCreateInfo = async (): Promise<InitCreateInfo> => {
    return response.data.result;
 };
 
-export const createProduct = async (request: CreateProductRequest): Promise<Product> => {
-  const response = await httpHelper.put<Response<Product>>("product", request);
-  return response.data.result;
+export const createProduct = async (request: CreateProductRequest): Promise<Response<Product>> => {
+  const response = await httpHelper.post<Response<Product>>("product", request);
+  return response.data;
 };
 
 

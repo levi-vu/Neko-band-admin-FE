@@ -1,12 +1,14 @@
-import './loading.styles.scss';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
-function Loading() {
+type LoadingType = {
+  isLoading: boolean;
+  children: React.ReactNode;
+}
+function Loading({isLoading, children} : LoadingType) {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   return (
-    <div className='loading'>
-    <svg viewBox="25 25 50 50" className="loading-container">
-      <circle r="20" cy="50" cx="50"></circle>
-    </svg>
-    </div>
+    <Spin spinning={isLoading} indicator={antIcon} > {children}</Spin>
   );
 }
 

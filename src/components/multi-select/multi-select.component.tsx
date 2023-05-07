@@ -16,7 +16,6 @@ type MultiSelectProps = {
 let index = 0;
 
 function MultiSelect({ isMultiSelect, placeHolder, text, existItemMessage, options, updateOption , onChange }: MultiSelectProps) {
-  console.log(options);
   const setItemHandler = (newValue: string) => {
     if (newValue == '' ||options?.find((option) => option.label == newValue)) {
       return false;

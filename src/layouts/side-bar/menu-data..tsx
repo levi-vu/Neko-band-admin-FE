@@ -21,8 +21,7 @@ function getMenu(
 const MenuData: MenuItem[] = [
   getMenu('Dashboard', '', <AiFillHome />),
   getMenu('Kho', 'management', <AiFillSkin />),
-  getMenu('Doanh thu', 'revenue', <GiReceiveMoney />),
-  getMenu('test', 'form', <GiReceiveMoney />)
+  getMenu('Doanh thu', 'revenue', <GiReceiveMoney />)
 ];
 
 export default MenuData;

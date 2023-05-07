@@ -1,11 +1,9 @@
-import { Button, Form, Input } from "antd";
-import { useMemo, useState } from "react";
+import { Button, Form, Input, Modal, Upload, UploadFile, message } from "antd";
+import { useContext, useMemo, useRef, useState } from "react";
 import TextArea from "rc-textarea";
 import NumericInput from "../../../components/numeric-input/numeric-input.component";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TypeProduct } from "../../../models/interfaces/type-product.model.";
-import Loading from "../../../components/loading/loading.component";
-import Warning from "../../../components/warning/warning.component";
 import "./create-product.styles.scss";
 import MultiSelect from "../../../components/multi-select/multi-select.component";
 import { DefaultOptionType } from "antd/es/select";
@@ -15,16 +13,20 @@ import { useForm } from "antd/es/form/Form";
 import { createProduct, getInitCreateInfo } from "../../../api";
 import * as _ from "lodash";
 import { Source } from "../../../models/interfaces/source.model";
+import UploadImage from "../../../components/upload-image/upload-image";
+import { ModalContext } from "../../../components/popup/popup.component";
 
 const EmptyRule = [{ required: true, message: Language.notAccessEmpty }];
 
 function CreateProduct() {
+	const closeModal = useContext(ModalContext);
 	const [form] = useForm<CreateProductRequest>();
+	const [fileList, setFileList] = useState<string[]>([]);
 	const queryClient = useQueryClient();
 	const [typeOptions, setTypeOptions] = useState<DefaultOptionType[] | undefined>([]);
 	const [sourceOptions, setSourceOptions] = useState<DefaultOptionType[] | undefined>([]);
-	const { isLoading, error, data: initInfo } = useQuery("getInitInfo", getInitCreateInfo, {cacheTime: 0});
-	const createProductMutation = useMutation( {mutationFn: createProduct , onSuccess: () => queryClient.invalidateQueries(['get-products'])});
+	const { data: initInfo } = useQuery("getInitInfo", getInitCreateInfo, { cacheTime: 0 });
+	const createProductMutation = useMutation({ mutationFn: createProduct });
 	useMemo(() => {
 		if (initInfo == undefined) {
 			return;
@@ -41,27 +43,30 @@ function CreateProduct() {
 		setSourceOptions(sourceOptions);
 	}, [initInfo]);
 
-	if (isLoading) return <Loading />;
-
-	if (error) return <Warning />;
-
 	const onReset = () => {
 		form.resetFields();
 	};
-
 	const onSubmit = async (request: CreateProductRequest) => {
-		request.types = typeOptions?.filter((type) => _.includes(request.typeIds, type.value)).map((type) => ({ typeId: type.value, typeName: type.label } as TypeProduct)) ?? [];
+		message.loading({ content: Language.loading, key: Language.create });
 		const sourceSelected = sourceOptions?.find((source) => request.sourceId == source.value);
 		request.source = { sourceId: sourceSelected?.value, sourceName: sourceSelected?.label } as Source;
-		const result = await createProductMutation.mutateAsync(request);
-		console.log(result);
+		request.types = typeOptions?.filter((type) => _.includes(request.typeIds, type.value)).map((type) => ({ typeId: type.value, typeName: type.label } as TypeProduct)) ?? [];
+		request.listUrlImage = fileList;
+		createProductMutation.mutateAsync(request).then((result) => {
+			if (!result.isSuccess) {
+				message.warning({ content: Language.createProductFailed, key: Language.create });
+			} else {
+				closeModal?.closeAction(false);
+				message.success({ content: Language.createProductSucceeded, key: Language.create });
+				queryClient.invalidateQueries(["get-products"]);
+			}
+		});
 	};
-
-	console.log(initInfo);
-	console.count("render");
-
 	return (
 		<Form form={form} labelCol={{ span: 4 }} onFinish={onSubmit}>
+			<Form.Item label={Language.productId} name="code" rules={EmptyRule}>
+				<Input />
+			</Form.Item>
 			<Form.Item label={Language.name} name="name" rules={EmptyRule}>
 				<Input />
 			</Form.Item>
@@ -75,8 +80,8 @@ function CreateProduct() {
 				</Form.Item>
 			</Form.Item>
 
-			<Form.Item label={Language.description} name="description">
-				<TextArea />
+			<Form.Item label={Language.quantity} name="quantity" rules={EmptyRule}>
+				<NumericInput onChange={(value) => form.setFieldValue("quantity", value)} value={form.getFieldValue("quantity")} placeHoler={Language.capital} />
 			</Form.Item>
 			<Form.Item label={Language.type} name="typeIds">
 				<MultiSelect
@@ -89,7 +94,7 @@ function CreateProduct() {
 					onChange={(value) => form.setFieldValue("typeIds", value)}
 				/>
 			</Form.Item>
-			<Form.Item label={Language.source} name="sourceId">
+			<Form.Item label={Language.source} name="sourceId" rules={EmptyRule}>
 				<MultiSelect
 					isMultiSelect={false}
 					placeHolder={Language.selectSource}
@@ -99,6 +104,12 @@ function CreateProduct() {
 					existItemMessage={Language.existedOrEmpty}
 					onChange={(value) => form.setFieldValue("sourceId", value)}
 				/>
+			</Form.Item>
+			<Form.Item label={Language.images}>
+				<UploadImage UrlsHandler={setFileList} />
+			</Form.Item>
+			<Form.Item label={Language.description} name="description">
+				<TextArea />
 			</Form.Item>
 			<Form.Item wrapperCol={{ offset: 8, span: 24 }}>
 				<Button type="primary" htmlType="submit">

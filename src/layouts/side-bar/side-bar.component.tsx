@@ -9,13 +9,12 @@ import logo from "../../assets/logo.svg";
 const SideBar = () => {
   const navigate = useNavigate();
   const firstPath = window.location.pathname.split("/");
-  console.count("render");
   return (
-    <Sider collapsible  className='menu-theme' breakpoint='xs'>
+    <Sider collapsible  className='menu-theme' breakpoint='xs'  theme="dark" >
       <div className='logo'>
         <img src={logo} alt='Logo' className='logo-svg' onClick={() => navigate("")} />
       </div>
-      <Menu onClick={({ key }) => navigate(key)} selectedKeys={[firstPath[1]]} mode='inline' items={MenuData} theme='dark' />
+      <Menu onClick={({ key }) => navigate(key)} selectedKeys={[firstPath[1]]} mode='inline' items={MenuData}  theme="dark" />
     </Sider>
   );
 };

@@ -4,8 +4,6 @@ import Popup from "../../../components/popup/popup.component";
 import CreateProduct from "../create-product/create-product.component";
 import { PopupType } from "../../../models/types/popup.type";
 import { Language } from "../../../assets/language/vietnam";
-import Loading from "../../../components/loading/loading.component";
-
 export default function Filter() {
   const [openCreatePopup, setOpenCreatePopup] = useState(false);
   const popupCreateProps: PopupType = {
