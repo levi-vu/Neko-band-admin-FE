@@ -5,8 +5,8 @@ import { useState } from "react";
 type AddItemProps = {
 	setItemHandler: (newItem: string) => boolean;
 	menu: React.ReactNode;
-	text: string;
-	existItemText: string;
+	text?: string;
+	existItemText?: string;
 };
 function AddItem({ setItemHandler, menu, text, existItemText }: AddItemProps) {
 	const [name, setName] = useState("");
@@ -30,10 +30,10 @@ function AddItem({ setItemHandler, menu, text, existItemText }: AddItemProps) {
 			<Space style={{ padding: "0 8px 4px" }}>
 				{notify ? (
 					<Tooltip title={existItemText}>
-						<Input placeholder="thêm lựa chọn" style={notify ? { border: "1px solid red" } : {}} value={name} onChange={onChangeValue} />
+						<Input placeholder="Tạo mới" style={notify ? { border: "1px solid red" } : {}} value={name} onChange={onChangeValue} />
 					</Tooltip>
 				) : (
-					<Input placeholder="thêm lựa chọn" style={notify ? { border: "1px solid red" } : {}} value={name} onChange={onChangeValue} />
+					<Input placeholder="Tạo mới" style={notify ? { border: "1px solid red" } : {}} value={name} onChange={onChangeValue} />
 				)}
 
 				<Button type="text" icon={<PlusOutlined />} onClick={(e) => addItemHandler(e)}>

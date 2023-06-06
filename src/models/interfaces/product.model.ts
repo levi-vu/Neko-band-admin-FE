@@ -1,4 +1,5 @@
-import { TypeProduct } from './type-product.model.';
+import { TypeProduct } from "./product-info.model";
+
 export interface Product {
     id: number,
     name: string,

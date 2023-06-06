@@ -3,25 +3,41 @@ import { useRef } from "react";
 
 type NumericInputProps = {
 	onChange: (value: string) => void;
-	placeHoler: string;
+	onblur?: (value: string) => void;
+	placeHoler?: string ;
 	value: string;
+	isCurrency?: boolean;
 };
 
-function NumericInput({ onChange, placeHoler, value }: NumericInputProps) {
-  const inputRef = useRef<InputRef>(null);
-	const handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
-		const  inputValue  = e.key;
-		const reg = /^-?\d*(\.\d*)?$/;
-		if (reg.test(inputValue) || inputValue === "" || inputValue === "-") {
-			onChange(inputRef.current?.input?.value ?? "");
-		} else {
-      e.preventDefault();
-    }
+function NumericInput({ onChange, isCurrency, placeHoler, value }: NumericInputProps) {
+	const inputRef = useRef<InputRef>(null);
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		checkValue(e.target.value, () => e.preventDefault());
 	};
+
+	
+	const handlePasteValue = (e: React.ClipboardEvent<HTMLInputElement>) => {
+		checkValue(e.clipboardData.getData('text'), () => e.preventDefault());
+	};
+
+	const formatNumber = (value: string) => {
+		return value.replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	  };
+
+	const checkValue = (value: string, nextStep :() => void) => {
+		const reg = /^[\d,;]*(\.\d*)?$/;
+		if (reg.test(value) || value === "") {
+			const value = inputRef.current?.input?.value ?? "";
+			onChange(isCurrency ? formatNumber(value) : value);
+		} else {
+			nextStep();
+		}
+	}
 
 	return (
 		<Tooltip trigger={["focus"]} title={"Chỉ nhập số"} placement="topLeft" overlayClassName="numeric-input">
-			<Input value={value} ref={inputRef} onKeyPress={handleChange} onChange={(e) => onChange(e.target.value)} placeholder={placeHoler} maxLength={16} />
+			<Input value={value} ref={inputRef} onPaste={handlePasteValue} onChange={handleChange}  placeholder={placeHoler} maxLength={16} />
 		</Tooltip>
 	);
 }

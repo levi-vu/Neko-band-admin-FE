@@ -1,8 +1,8 @@
-import { Product } from "./models/interfaces/product.model";
-import { Response } from "./models/interfaces/response.model";
-import httpHelper from "./utils/http-helper";
-import { InitCreateInfo } from "./models/interfaces/init-create-info.model";
-import { CreateProductRequest } from "./models/interfaces/create-product.model";
+import { Product } from "../models/interfaces/product.model";
+import { Response } from "../models/interfaces/response.model";
+import httpHelper from "./http-helper";
+import { InitCreateInfo } from "../models/interfaces/init-create-info.model";
+import { CreateProductRequest } from "../models/interfaces/create-product.type";
 
 export const getProducts = async (): Promise<Response<Product[]>> => {
   const response = await httpHelper.get<Response<Product[]>>("product");

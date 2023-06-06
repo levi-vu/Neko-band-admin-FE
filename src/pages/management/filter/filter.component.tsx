@@ -10,10 +10,10 @@ export default function Filter() {
     isOpen: openCreatePopup,
     title: "Tạo sản phẩm",
     content: <CreateProduct />,
+    width: 800,
     handleActionClose: setOpenCreatePopup,
   };
 
-  console.count("filter");
   return (
     <div className='filter-container'>
       <input

@@ -4,7 +4,7 @@ import { Product } from "../../../models/interfaces/product.model";
 import { Language } from "../../../assets/language/vietnam";
 import { useQuery } from "react-query";
 import Warning from "../../../components/warning/warning.component";
-import { getProducts } from "../../../api";
+import { getProducts } from "../../../utils/api";
 
 type TableProductType = {
 	className: string;
