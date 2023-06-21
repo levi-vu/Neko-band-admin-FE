@@ -9,19 +9,22 @@ import NumericInput from "../../../../components/numeric-input/numeric-input.com
 import UploadImage from "../../../../components/upload-image/upload-image.component";
 import { RootState } from "../../../../store/store";
 import FormValue from "../../../../models/interfaces/form-value.model";
+import { Image } from "../../../../models/interfaces/create-product.type";
+import { useQueryClient } from "react-query";
 
 const EmptyRule = [{ required: true, message: Language.notAccessEmpty }];
 
 function ProductForm({ form, moveNext, typeOptions, sourceOptions }: ProductFormType) {
+	const queryClient = useQueryClient();
 	const dispatch = useDispatch();
 	const state = useSelector((state: RootState) => state.createProduct);
 	form.setFieldsValue({ ...state });
 
-	const handleImage = (imageUrl: string, isRemove = false) => {
+	const handleImage = (base64: string, name: string, isRemove = false) => {
 		if (isRemove) {
-			dispatch(removeImage(imageUrl));
+			dispatch(removeImage(name));
 		} else {
-			dispatch(setImage(imageUrl));
+			dispatch(setImage({ base64, name } as Image));
 		}
 	};
 
@@ -29,65 +32,64 @@ function ProductForm({ form, moveNext, typeOptions, sourceOptions }: ProductForm
 		dispatch(setForm({ name, value } as FormValue));
 	};
 
-
 	return (
-		<Form form={form} labelCol={{ span: 8 }} onFinish={() => moveNext(1)}>
+		<Form form={form} labelCol={{ span: 8, offset: 1 }} onFinish={() => moveNext(1)}>
 			<Row gutter={[8, 8]}>
-				<Col span={12}>
+				<Col span={8}>
 					<Form.Item label={Language.productId} name="productCode" rules={EmptyRule}>
 						<Input onBlur={(e) => handleChangeValue("productCode", e.target.value)} />
 					</Form.Item>
 				</Col>
-				<Col span={12}>
-					<Form.Item label={Language.type} name="typeIds" >
+				<Col span={8}>
+					<Form.Item label={Language.type} name="typeIds">
 						<MultiSelect
 							value={form.getFieldValue("typeIds")}
-							enableAddItem={false}
 							isMultiSelect={true}
 							placeHolder={Language.selectType}
 							options={typeOptions}
-							text={Language.addNew}
 							onChange={(value) => handleChangeValue("typeIds", value)}
 						/>
 					</Form.Item>
 				</Col>
-				<Col span={12}>
-					<Form.Item label={Language.name} name="name" rules={EmptyRule}>
-						<Input onBlur={(e) => handleChangeValue("name", e.target.value)} />
-					</Form.Item>
-				</Col>
-				<Col span={12}>
-					<Form.Item label={Language.source} name="sourceId" rules={EmptyRule}>
+				<Col span={8}>
+					<Form.Item label={Language.source} name="sourceId">
 						<MultiSelect
 							value={form.getFieldValue("sourceId")}
-							enableAddItem={false}
-							isMultiSelect={false}
 							placeHolder={Language.selectSource}
 							options={sourceOptions}
-							text={Language.addNew}
 							onChange={(value) => handleChangeValue("sourceId", value)}
 						/>
 					</Form.Item>
 				</Col>
 
-				<Col span={12}>
+				<Col span={8}>
+					<Form.Item label={Language.name} name="name" rules={EmptyRule}>
+						<Input onBlur={(e) => handleChangeValue("name", e.target.value)} />
+					</Form.Item>
+				</Col>
+
+				<Col span={8}>
 					<Form.Item label={Language.price} name="price" rules={EmptyRule}>
 						<NumericInput isCurrency={true} onChange={(value) => handleChangeValue("price", value)} value={form.getFieldValue("price")} />
 					</Form.Item>
 				</Col>
 
-				<Col span={12}>
+				<Col span={8}>
 					<Form.Item label={Language.costPrice} name="costPrice" rules={EmptyRule}>
 						<NumericInput isCurrency={true} onChange={(value) => handleChangeValue("costPrice", value)} value={form.getFieldValue("costPrice")} />
 					</Form.Item>
 				</Col>
 				<Col span={24}>
-					<Form.Item labelCol={{ span: 4 }} label={Language.images} name="listUrlImage">
-						<UploadImage listURl={form.getFieldValue("listUrlImage")} setImage={handleImage} removeImage={(url: string) => handleImage(url, true)} />
+					<Form.Item labelCol={{ span: 3 }} label={Language.images} name="images">
+						<UploadImage
+							images={form.getFieldValue("images")}
+							setImage={handleImage}
+							removeImage={(base64: string, name: string) => handleImage(base64, name, true)}
+						/>
 					</Form.Item>
 				</Col>
 				<Col span={24}>
-					<Form.Item labelCol={{ span: 4 }} label={Language.description} name="description">
+					<Form.Item labelCol={{ span: 3 }} label={Language.description} name="description">
 						<TextArea onBlur={(e) => handleChangeValue("description", e.target.value)} size="large" style={{ width: 300 }} />
 					</Form.Item>
 				</Col>
@@ -97,7 +99,7 @@ function ProductForm({ form, moveNext, typeOptions, sourceOptions }: ProductForm
 					<Button type="primary" htmlType="submit">
 						{Language.next}
 					</Button>
-					<Button htmlType="button" onClick={() => dispatch(clearForm('product'))}>
+					<Button htmlType="button" onClick={() => dispatch(clearForm("product"))}>
 						{Language.reset}
 					</Button>
 				</Space>

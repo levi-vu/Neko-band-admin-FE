@@ -5,10 +5,9 @@ import { useState } from "react";
 type AddItemProps = {
 	setItemHandler: (newItem: string) => boolean;
 	menu: React.ReactNode;
-	text?: string;
 	existItemText?: string;
 };
-function AddItem({ setItemHandler, menu, text, existItemText }: AddItemProps) {
+function AddItem({ setItemHandler, menu, existItemText }: AddItemProps) {
 	const [name, setName] = useState("");
 	const [notify, setNotify] = useState(false);
 
@@ -36,9 +35,7 @@ function AddItem({ setItemHandler, menu, text, existItemText }: AddItemProps) {
 					<Input placeholder="Tạo mới" style={notify ? { border: "1px solid red" } : {}} value={name} onChange={onChangeValue} />
 				)}
 
-				<Button type="text" icon={<PlusOutlined />} onClick={(e) => addItemHandler(e)}>
-					{text}
-				</Button>
+				<Button type="text" icon={<PlusOutlined />} onClick={(e) => addItemHandler(e)}></Button>
 			</Space>
 		</>
 	);

@@ -1,19 +1,19 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CreateProductRequest, ProductInput, VariantInput } from "../models/interfaces/create-product.type";
+import { CreateProductRequest, Image, ProductInput, VariantInput } from "../models/interfaces/create-product.type";
 import FormValue from "../models/interfaces/form-value.model";
 
 const initialMainForm: ProductInput = {
     id: 0,
-    productCode: '',
-    name: '',
+    productCode: '1',
+    name: 'a',
     price: 0,
     costPrice: 0,
-    description: '',
+    description: '1',
     typeIds: [],
     types: [],
     sourceId: 0,
     source: null,
-    listUrlImage: [],
+    images: [],
 };
 
 const initValueVariantForm: VariantInput = {
@@ -27,17 +27,17 @@ export const CreateProductSlice = createSlice({
     initialState,
     reducers: {
         clearForm: (state: CreateProductRequest, action: PayloadAction<'all' | 'product' | 'variant'>) => {
-          switch(action.payload){
-            case "product": return {...state, ...initialMainForm}
-            case "variant": return {...state, ...initValueVariantForm}
-            default: return initialState
-           }
+            switch (action.payload) {
+                case "product": return { ...state, ...initialMainForm }
+                case "variant": return { ...state, ...initValueVariantForm }
+                default: return initialState
+            }
         },
-        setImage: (state: CreateProductRequest, action: PayloadAction<string>) => {
-            state.listUrlImage = [...state.listUrlImage, action.payload];
+        setImage: (state: CreateProductRequest, action: PayloadAction<Image>) => {
+            state.images = [...state.images, action.payload];
         },
         removeImage: (state: CreateProductRequest, action: PayloadAction<string>) => {
-            state.listUrlImage = state.listUrlImage.filter(url => url !== action.payload);
+            state.images = state.images.filter(image => image.name !== action.payload);
         },
         setForm: (state: CreateProductRequest, action: PayloadAction<FormValue>) => {
             const { name, value } = action.payload;
@@ -47,7 +47,7 @@ export const CreateProductSlice = createSlice({
             };
         },
         removeAttribute: (state: CreateProductRequest, action: PayloadAction<number>) => {
-           state.attributes.splice(action.payload, 1);
+            state.attributes.splice(action.payload, 1);
         }
     }
 })

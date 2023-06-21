@@ -20,7 +20,7 @@ function CreateProduct() {
 	const closeModal = useContext(ModalContext);
 	const queryClient = useQueryClient();
 	const createProductMutation = useMutation({ mutationFn: createProduct });
-	const { data: initInfo } = useQuery("getInitInfo", getInitCreateInfo, { cacheTime: 0 });
+	const { data: initInfo } = useQuery("getInitInfo", getInitCreateInfo);
 	const dispatch = useDispatch();
 	const [productForm] = Form.useForm<ProductInput>();
 	const [variantForm] = Form.useForm<VariantInput>();

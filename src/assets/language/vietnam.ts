@@ -22,7 +22,7 @@ export const Language = {
     quantity: 'Số lượng',
     selectType: 'Chọn loại sản phẩm',
     selectSource: 'Chọn nguồn sản phẩm',
-    existedOrEmpty: 'Lựa chọn mới đã tồn tại hoặc để trống',
+    existedOrEmpty: 'Đã tồn tại hoặc trống',
     notAccessEmpty: 'Không được để trống',
     empty: 'Trống',
     required: '(Bắt buộc)',
@@ -38,5 +38,5 @@ export const Language = {
     attribute: 'Thuộc tính',
     color: 'Màu sắc',
     size: 'Kích thước',
-    pattern: 'Họa tiết', 
+    pattern: 'Họa tiết',
 }

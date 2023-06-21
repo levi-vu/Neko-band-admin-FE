@@ -11,12 +11,23 @@ export interface ProductInput {
     types: TypeProduct[];
     sourceId: number;
     source: Source | null;
-    listUrlImage: string[];
+    images: Image[];
 }
 
 
 export interface VariantInput {
-    attributes: { attribute: string, tags: string[]}[]
+    attributes: Attribute[]
 }
 
-export interface CreateProductRequest extends ProductInput , VariantInput {}
+export interface Attribute {
+    name: string;
+    tags: string[]
+}
+
+export interface Image {
+    name: string;
+    url: string;
+    base64: string;
+}
+
+export interface CreateProductRequest extends ProductInput, VariantInput { }

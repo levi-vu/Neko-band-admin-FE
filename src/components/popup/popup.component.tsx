@@ -13,7 +13,15 @@ function Popup(props: PopupType) {
 		<>
 			{isOpen ? (
 				<ModalContext.Provider value={contextValue}>
-					<Modal width={width} style={{ top: "10%" }} title={title} open={true} onCancel={() => handleActionClose(false)} footer={<></>} maskClosable={false}>
+					<Modal
+						width={width}
+						style={{ top: "5vh", maxHeight: "80%" }}
+						title={title}
+						open={true}
+						onCancel={() => handleActionClose(false)}
+						footer={<></>}
+						maskClosable={false}
+					>
 						{content}
 					</Modal>
 				</ModalContext.Provider>

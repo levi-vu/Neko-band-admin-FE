@@ -23,3 +23,20 @@ body {
 .ant-alert{
   height: fit-content;
 }
+
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(#aa80ee, #8c3ef1);
+  border-radius: 10px;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}

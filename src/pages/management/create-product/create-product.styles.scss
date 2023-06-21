@@ -12,3 +12,19 @@
     width: 50%;
     padding-bottom: 5px;
 }
+
+.variant-name{
+    font-weight: bold;
+}
+
+.variant-table {
+    padding: 8px;
+    margin: 4px;
+}
+
+.row-item {
+    display: flex;
+    > div {
+        margin-left: 6px;
+      }
+}

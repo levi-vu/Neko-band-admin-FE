@@ -7,8 +7,8 @@ interface TagInputProps {
 	disabled?: boolean;
   }
 
-function TagInput({ disabled, onChange }: TagInputProps) {
-	const [tags, setTags] = useState<string[]>([]);
+function TagInput({ disabled, onChange, value }: TagInputProps) {
+	const [tags, setTags] = useState<string[]>(value ?? []);
 	const [inputValue, setInputValue] = useState("");
 	const [editInputIndex, setEditInputIndex] = useState(-1);
 	const [editInputValue, setEditInputValue] = useState("");

@@ -1,19 +1,24 @@
-import { Upload, message } from "antd";
+import { Modal, Upload, message } from "antd";
 import storage from "../../utils/firebase";
 import { UploadTaskSnapshot, deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Language } from "../../assets/language/vietnam";
 import { useEffect, useState } from "react";
+import { Image } from "../../models/interfaces/create-product.type";
 
 type UploadImageType = {
-	setImage: (url: string) => void;
-	removeImage: (url: string) => void;
-	listURl: string[];
+	setImage: (url: string, name: string) => void;
+	removeImage: (url: string, name: string) => void;
+	images: Image[];
 };
 
-function UploadImage({ setImage, removeImage, listURl }: UploadImageType) {
-	const [defaultFiles, setDefaultFiles] = useState<UploadFile[]>(listURl.map((url) => ({ url } as UploadFile)));
+function UploadImage({ setImage, removeImage, images }: UploadImageType) {
+	const defaultFiles = images.map((image) => ({ url: image.base64, name: image.name } as UploadFile));
+	const [previewOpen, setPreviewOpen] = useState(false);
+	const [previewImage, setPreviewImage] = useState("");
+	const [previewTitle, setPreviewTitle] = useState("");
+
 	// const handleUpload = async (options: any) => {
 	// 	const { file, onSuccess, onError, onProgress } = options;
 	// 	try {
@@ -41,15 +46,25 @@ function UploadImage({ setImage, removeImage, listURl }: UploadImageType) {
 	// 	}
 	// };
 
+	const handlePreview = async (file: UploadFile) => {
+		if (!file.url) {
+			file.preview = await getBase64(file.originFileObj as RcFile);
+		}
+
+		setPreviewImage(file.url ?? (file.preview as string));
+		setPreviewOpen(true);
+		setPreviewTitle(file.name);
+	};
+
 	const handleFileChange = async (info: any) => {
 		const { file, onSuccess } = info;
 
 		const base64 = await getBase64(file as File);
-		setImage(base64);
+		setImage(base64, file.name);
 		onSuccess();
 	};
 
-	const getBase64 = (file: File) : Promise<string> =>{
+	const getBase64 = (file: File): Promise<string> => {
 		return new Promise((resolve, reject) => {
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
@@ -59,28 +74,33 @@ function UploadImage({ setImage, removeImage, listURl }: UploadImageType) {
 	};
 
 	const handleFileDelete = async (file: UploadFile) => {
-		if(file.url) {
-			removeImage(file.url);
+		if (file.url) {
+			removeImage(file.url, file.name);
 		} else {
 			const base64 = await getBase64(file.originFileObj as File);
-			removeImage(base64);
+			removeImage(base64, file.name);
 		}
 	};
 
 	return (
-		<Upload
-			showUploadList={{showPreviewIcon: false, showDownloadIcon: false}}
-			customRequest={handleFileChange}
-			onRemove={handleFileDelete}
-			listType="picture-card"
-			accept="image/png, image/jpeg"
-			defaultFileList={[...defaultFiles]}
-		>
-			<div>
+		<>
+			<Upload
+				showUploadList={{ showDownloadIcon: false }}
+				customRequest={handleFileChange}
+				onRemove={handleFileDelete}
+				listType="picture-card"
+				accept="image/png, image/jpeg"
+				defaultFileList={[...defaultFiles]}
+				onPreview={handlePreview}
+				multiple
+			>
 				<AiOutlinePlus />
-				<div style={{ marginTop: 8 }}>Upload</div>
-			</div>
-		</Upload>
+				Upload
+			</Upload>
+			<Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
+				<img alt="example" style={{ width: "100%" }} src={previewImage} />
+			</Modal>
+		</>
 	);
 }
 
