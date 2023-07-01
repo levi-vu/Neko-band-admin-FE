@@ -3,7 +3,7 @@ import { PopupType } from "../../models/types/popup.type";
 import { createContext, useMemo } from "react";
 
 type ModelContextType = {
-	closeAction: (closePopup: boolean) => void;
+	closeAction: () => void;
 };
 export const ModalContext = createContext<ModelContextType | null>(null);
 function Popup(props: PopupType) {
@@ -18,7 +18,7 @@ function Popup(props: PopupType) {
 						style={{ top: "5vh", maxHeight: "80%" }}
 						title={title}
 						open={true}
-						onCancel={() => handleActionClose(false)}
+						onCancel={() => handleActionClose()}
 						footer={<></>}
 						maskClosable={false}
 					>

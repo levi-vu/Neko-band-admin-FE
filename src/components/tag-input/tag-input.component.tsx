@@ -5,9 +5,10 @@ interface TagInputProps {
 	value?: string[];
 	onChange?: (value: string[]) => void;
 	disabled?: boolean;
-  }
+	upper?: boolean;
+}
 
-function TagInput({ disabled, onChange, value }: TagInputProps) {
+function TagInput({ disabled, onChange, value, upper }: TagInputProps) {
 	const [tags, setTags] = useState<string[]>(value ?? []);
 	const [inputValue, setInputValue] = useState("");
 	const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -28,11 +29,11 @@ function TagInput({ disabled, onChange, value }: TagInputProps) {
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setInputValue(e.target.value);
+		setInputValue(upper ? e.target.value.toLocaleUpperCase() : e.target.value);
 	};
 
 	const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEditInputValue(e.target.value);
+		setEditInputValue(upper ? e.target.value.toLocaleUpperCase() : e.target.value);
 	};
 
 	const handleInputConfirm = () => {
@@ -55,16 +56,34 @@ function TagInput({ disabled, onChange, value }: TagInputProps) {
 
 	const tagInputStyle: React.CSSProperties = {
 		width: 60,
+		height: 30,
 	};
 	return (
 		<Space wrap>
 			{tags.map((tag, index) => {
 				if (editInputIndex === index) {
-					return <Input ref={editInputRef} key={tag} size="small" style={tagInputStyle} value={editInputValue} onChange={handleEditInputChange} onBlur={handleEditInputConfirm} onPressEnter={handleEditInputConfirm} />;
+					return (
+						<Input
+							ref={editInputRef}
+							key={tag}
+							size="middle"
+							style={tagInputStyle}
+							value={editInputValue}
+							onChange={handleEditInputChange}
+							onBlur={handleEditInputConfirm}
+							onPressEnter={handleEditInputConfirm}
+						/>
+					);
 				}
 				const isLongTag = tag.length > 20;
 				const tagElem = (
-					<Tag color="#108ee9" key={tag} closable={true} style={{ userSelect: "none" }} onClose={() => handleClose(tag)}>
+					<Tag
+						color="#108ee9"
+						key={tag}
+						closable={true}
+						style={{ height: 30, textAlign: "center", fontSize: "18px", userSelect: "none" }}
+						onClose={() => handleClose(tag)}
+					>
 						<span
 							onDoubleClick={(e) => {
 								setEditInputIndex(index);
@@ -85,7 +104,17 @@ function TagInput({ disabled, onChange, value }: TagInputProps) {
 				);
 			})}
 
-			<Input ref={inputRef} disabled={disabled} type="text" size="small" style={tagInputStyle} value={inputValue} onChange={handleInputChange} onBlur={handleInputConfirm} onPressEnter={handleInputConfirm} />
+			<Input
+				ref={inputRef}
+				disabled={disabled}
+				type="text"
+				size="small"
+				style={tagInputStyle}
+				value={inputValue}
+				onChange={handleInputChange}
+				onBlur={handleInputConfirm}
+				onPressEnter={handleInputConfirm}
+			/>
 		</Space>
 	);
 }

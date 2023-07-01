@@ -1,4 +1,4 @@
-import { Source, TypeProduct } from "../interfaces/product-info.model";
+import { Source } from "../interfaces/product/product-side-info";
 
 export class CreateProductForm {
     id: number;
@@ -6,21 +6,19 @@ export class CreateProductForm {
     price: number;
     costPrice: number;
     description: string;
-    typeIds: number[];
-    types: TypeProduct[];
+    categoryIds: number[];
     sourceId: number;
     source: Source | null;
     listUrlImage: string[];
-    attributes: { attribute: string, tags: string[]}[]
+    attributes: { attribute: string, tags: string[] }[]
 
-    constructor(){
+    constructor() {
         this.id = 0;
         this.name = "";
         this.price = 0;
         this.costPrice = 0;
         this.description = "";
-        this.typeIds = [];
-        this.types = [];
+        this.categoryIds = [];
         this.sourceId = 0;
         this.source = null;
         this.listUrlImage = [];

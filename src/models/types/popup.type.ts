@@ -3,5 +3,5 @@ export type PopupType = {
   title: string;
   content: React.ReactNode;
   width: string;
-  handleActionClose: (closePopup: boolean) => void;
+  handleActionClose: () => void;
 };

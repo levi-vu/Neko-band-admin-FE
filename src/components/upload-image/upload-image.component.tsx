@@ -1,50 +1,18 @@
-import { Modal, Upload, message } from "antd";
-import storage from "../../utils/firebase";
-import { UploadTaskSnapshot, deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { Modal, Upload } from "antd";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/es/upload";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Language } from "../../assets/language/vietnam";
-import { useEffect, useState } from "react";
-import { Image } from "../../models/interfaces/create-product.type";
+import { useRef, useState } from "react";
+import Compressor from "compressorjs";
+import { FormItemType } from "../../models/types/form-item.type";
+import { flushSync } from "react-dom";
+import { Image } from "../../models/interfaces/image";
+import { uniqueId } from "lodash";
 
-type UploadImageType = {
-	setImage: (url: string, name: string) => void;
-	removeImage: (url: string, name: string) => void;
-	images: Image[];
-};
-
-function UploadImage({ setImage, removeImage, images }: UploadImageType) {
-	const defaultFiles = images.map((image) => ({ url: image.base64, name: image.name } as UploadFile));
+function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & { preFix?: string }) {
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState("");
 	const [previewTitle, setPreviewTitle] = useState("");
-
-	// const handleUpload = async (options: any) => {
-	// 	const { file, onSuccess, onError, onProgress } = options;
-	// 	try {
-	// 		const storageRef = ref(storage, `images/${file.uid}`);
-	// 		const uploadTask = uploadBytesResumable(storageRef, file);
-	// 		uploadTask.on(
-	// 			"state_changed",
-	// 			(snapShot: UploadTaskSnapshot) => {
-	// 				const progress = (snapShot.bytesTransferred / snapShot.totalBytes) * 100;
-	// 				onProgress({ percent: progress }, file);
-	// 			},
-	// 			(error) => {
-	// 				onError(new Error(Language.uploadFileFailed.replace("{0}", file.name)));
-	// 			},
-	// 			() => {
-	// 				getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-	// 					setImage(url);
-	// 					message.success(Language.uploadFileSucceeded.replace("{0}", file.name));
-	// 					onSuccess();
-	// 				});
-	// 			}
-	// 		);
-	// 	} catch (error) {
-	// 		onError(error);
-	// 	}
-	// };
+	const images = useRef<Image[]>(value);
 
 	const handlePreview = async (file: UploadFile) => {
 		if (!file.url) {
@@ -56,12 +24,28 @@ function UploadImage({ setImage, removeImage, images }: UploadImageType) {
 		setPreviewTitle(file.name);
 	};
 
-	const handleFileChange = async (info: any) => {
+	const handleFileChange = (info: any) => {
 		const { file, onSuccess } = info;
-
-		const base64 = await getBase64(file as File);
-		setImage(base64, file.name);
-		onSuccess();
+		new Compressor(file as File, {
+			maxWidth: 900,
+			maxHeight: 1333,
+			success: async (compressedResult) => {
+				const source = await getBase64(compressedResult as File);
+				const image: Image = {
+					imageId: 0,
+					imageName: `${preFix}-${file.name.replaceAll(" ", "")}`,
+					source,
+					url: "",
+				};
+				flushSync(() => {
+					images.current = [...images.current, image];
+				});
+				onSuccess();
+			},
+			error(err) {
+				console.log(err.message);
+			},
+		});
 	};
 
 	const getBase64 = (file: File): Promise<string> => {
@@ -74,28 +58,38 @@ function UploadImage({ setImage, removeImage, images }: UploadImageType) {
 	};
 
 	const handleFileDelete = async (file: UploadFile) => {
-		if (file.url) {
-			removeImage(file.url, file.name);
-		} else {
-			const base64 = await getBase64(file.originFileObj as File);
-			removeImage(base64, file.name);
-		}
+		const newList = value.filter((v) => v.imageName !== file.name);
+		images.current = newList;
+		onChange?.(newList);
 	};
 
+	// B/c upload multiple file is asynchronous so we cant upload data form correctly.
+	// Use onchange when all file uploaded to add file is solution
+	const handleUploadChange = ({ fileList }: UploadChangeParam<UploadFile<any>>) => {
+		const isAllUploaded = fileList.every((file) => file.status === "done");
+		if (isAllUploaded) {
+			onChange?.(images.current);
+		}
+	};
 	return (
 		<>
 			<Upload
 				showUploadList={{ showDownloadIcon: false }}
 				customRequest={handleFileChange}
+				onChange={handleUploadChange}
 				onRemove={handleFileDelete}
 				listType="picture-card"
 				accept="image/png, image/jpeg"
-				defaultFileList={[...defaultFiles]}
+				defaultFileList={images.current.map(
+					(image) => ({ url: image.source ?? image.url, name: image.imageName, status: "done", uid: uniqueId() } as UploadFile)
+				)}
 				onPreview={handlePreview}
 				multiple
 			>
-				<AiOutlinePlus />
-				Upload
+				<>
+					<AiOutlinePlus />
+					Upload
+				</>
 			</Upload>
 			<Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
 				<img alt="example" style={{ width: "100%" }} src={previewImage} />

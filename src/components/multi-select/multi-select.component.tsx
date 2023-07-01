@@ -1,37 +1,44 @@
 import { Select } from "antd";
-
-import AddItem from "./add-item.component";
 import { DefaultOptionType } from "antd/es/select";
+import { ReactNode, useState } from "react";
 
 type MultiSelectProps = {
-	value: string[] | string;
+	value?: string[] | string;
 	isMultiSelect?: boolean;
-	enableAddItem?: boolean;
 	placeHolder: string;
-	existItemMessage?: string;
 	options: DefaultOptionType[] | undefined;
-	updateOption?: (newOptions: string) => void;
-	onChange: (value: string) => void;
+	onChange?: (value: string) => void;
+	addItemNode?: ReactNode;
+	style?: React.CSSProperties;
 };
 
-function MultiSelect({ value, isMultiSelect, placeHolder, existItemMessage, enableAddItem, options, updateOption, onChange }: MultiSelectProps) {
-	const setItemHandler = (newValue: string) => {
-		if (newValue == "" || options?.find((option) => option.label == newValue)) {
-			return false;
-		}
-		if (updateOption) {
-			updateOption(newValue);
-		}
-		return true;
-	};
+function MultiSelect({ value, isMultiSelect, placeHolder, options, onChange, addItemNode, style }: MultiSelectProps) {
+	const [open, setOpen] = useState(false);
 	return (
 		<Select
-			defaultValue={value}
+			onKeyDown={(e) => {
+				if (e.key === "Enter") {
+					setOpen(false);
+				}
+			}}
+			open={open}
+			style={style}
+			value={value}
 			mode={isMultiSelect ? "multiple" : undefined}
 			placeholder={placeHolder}
 			options={options}
-			onChange={(item) => onChange(item as string)}
-			dropdownRender={(menu) => (enableAddItem ? <AddItem setItemHandler={setItemHandler} menu={menu} existItemText={existItemMessage} /> : menu)}
+			onChange={(item) => onChange?.(item as string)}
+			onDropdownVisibleChange={(visible) => setOpen(visible)}
+			dropdownRender={(menu) =>
+				addItemNode ? (
+					<>
+						{menu}
+						<div onClick={() => setOpen(false)}>{addItemNode}</div>
+					</>
+				) : (
+					menu
+				)
+			}
 		/>
 	);
 }

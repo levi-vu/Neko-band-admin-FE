@@ -1,12 +1,17 @@
+import updateProductReducer from './update-product-slice';
 import { configureStore } from '@reduxjs/toolkit'
-import CreateProductReducer from './create-product-slice'
+import managementPageReducer from './management-page-slice'
+import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 
 export const store = configureStore({
   reducer: {
-    createProduct: CreateProductReducer
+    updateProduct: updateProductReducer,
+    ManagementPage: managementPageReducer
   },
+  devTools: !isEqual(process.env.NODE_ENV, 'production')
 })
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<typeof store.dispatch>()

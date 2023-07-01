@@ -1,17 +1,21 @@
-import { Input, InputRef, Tooltip } from "antd";
-import { useRef } from "react";
+import { Input, Tooltip } from "antd";
+import { useEffect, useState } from "react";
 
 type NumericInputProps = {
-	onChange: (value: string) => void;
+	onChange?: (value: string) => void;
 	onblur?: (value: string) => void;
 	placeHoler?: string;
-	value: string;
+	value?: string;
 	isCurrency?: boolean;
 	width?: string;
 };
 
 function NumericInput({ onChange, isCurrency, placeHoler, value, width }: NumericInputProps) {
-	const inputRef = useRef<InputRef>(null);
+	const [inputValue, setInputValue] = useState(value);
+
+	useEffect(() => {
+		setInputValue(value);
+	}, [value]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		checkValue(e.target.value, () => e.preventDefault());
@@ -22,30 +26,30 @@ function NumericInput({ onChange, isCurrency, placeHoler, value, width }: Numeri
 	};
 
 	const formatNumber = (value: string) => {
-		return value.replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		const regex = /^0+|,(?=,|$)/g;
+		const currencyValue = value.replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		return currencyValue.replace(regex, "");
 	};
 
 	const checkValue = (value: string, nextStep: () => void) => {
 		const reg = /^[\d,;]*(\.\d*)?$/;
-		if (reg.test(value) || value === "") {
-			const value = inputRef.current?.input?.value ?? "";
-			onChange(isCurrency ? formatNumber(value) : value);
+		if (value === "") {
+			setInputValue("0");
+			onChange?.("0");
+		} else if (reg.test(value)) {
+			const valueInput = isCurrency ? formatNumber(value) : value;
+			setInputValue(valueInput);
+			onChange?.(valueInput);
 		} else {
+			const valueInput = value.match(/\d/g)?.join("") ?? "";
+			setInputValue(isCurrency ? formatNumber(valueInput) : valueInput);
 			nextStep();
 		}
 	};
 
 	return (
 		<Tooltip trigger={["focus"]} title={"Chỉ nhập số"} placement="topLeft" overlayClassName="numeric-input">
-			<Input
-				style={{ width: width }}
-				value={value}
-				ref={inputRef}
-				onPaste={handlePasteValue}
-				onChange={handleChange}
-				placeholder={placeHoler}
-				maxLength={16}
-			/>
+			<Input style={{ width: width }} value={inputValue} onPaste={handlePasteValue} onChange={handleChange} placeholder={placeHoler} maxLength={16} />
 		</Tooltip>
 	);
 }
