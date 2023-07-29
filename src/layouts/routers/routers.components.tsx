@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Management from "../../pages/management/index.component";
+import { lazy } from "react";
 
+const Management = lazy(() => import("../../pages/management/index.component"));
 export default function Router() {
 	return (
 		<Routes>

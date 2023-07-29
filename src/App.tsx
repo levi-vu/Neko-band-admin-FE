@@ -1,4 +1,4 @@
-import { Layout, theme } from "antd";
+import { Layout } from "antd";
 import "./index.scss";
 import Router from "./layouts/routers/routers.components";
 import SideBar from "./layouts/side-bar/side-bar.component";

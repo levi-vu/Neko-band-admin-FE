@@ -3,13 +3,12 @@ import { InitCreateInfo } from "../models/interfaces/init-create-info";
 import { Category, Source, Tag } from "../models/interfaces/product/product-side-info";
 import { Get, GetWithParams, PostJson } from "../utils/http-helper";
 import { GeneralItem } from "../models/interfaces/general-item";
-import { ProductRequest, Variant } from "../models/interfaces/product/product";
-import { ProductItemTable } from "../models/interfaces/product/product-item-table";
-import { get } from "lodash";
+import { ProductRequest } from "../models/interfaces/product/product";
+import { TableProducts } from "../models/interfaces/product/product-table";
 import { VariantSearchResult } from "../models/interfaces/variant/variant-search-result";
 
-export const getProducts = async (): Promise<Response<ProductItemTable[]>> => {
-	const response = await Get<Response<ProductItemTable[]>>("product");
+export const getProducts = async (page: number): Promise<Response<TableProducts>> => {
+	const response = await GetWithParams<Response<TableProducts>>("product", { page });
 	return response.data;
 };
 

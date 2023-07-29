@@ -6,7 +6,7 @@ import Compressor from "compressorjs";
 import { FormItemType } from "../../models/types/form-item.type";
 import { flushSync } from "react-dom";
 import { Image } from "../../models/interfaces/image";
-import { uniqueId } from "lodash";
+import uniqueId from "lodash/uniqueId";
 
 function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & { preFix?: string }) {
 	const [previewOpen, setPreviewOpen] = useState(false);

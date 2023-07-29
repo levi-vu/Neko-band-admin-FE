@@ -9,7 +9,7 @@ const SideBar = () => {
 	const navigate = useNavigate();
 	const firstPath = window.location.pathname.split("/");
 	return (
-		<Sider collapsible breakpoint="xs">
+		<Sider collapsible breakpoint="xs" width={"12vw"}>
 			<div className="logo">
 				<img src={logo} alt="Logo" className="logo-svg" onClick={() => navigate("")} />
 			</div>

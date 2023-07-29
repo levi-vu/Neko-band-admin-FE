@@ -52,7 +52,7 @@ function SelectTags({ value, index, onChange, remove }: PriceInputProps) {
 	return (
 		<Space>
 			<MultiSelect
-				minWidth={200}
+				style={{ minWidth: "200px" }}
 				value={defaultValue?.[0]}
 				placeHolder={Language.selectTag}
 				options={state.TagOptions}

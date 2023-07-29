@@ -10,3 +10,8 @@ export interface ProductItemTable {
     image: string;
     size: string;
 }
+
+export interface TableProducts {
+    products: ProductItemTable[],
+    total: number
+}

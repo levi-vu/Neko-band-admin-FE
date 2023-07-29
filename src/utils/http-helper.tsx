@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-//baseURL: "https://localhost:8080/api",
-const baseURL = "https://localhost:7139/api";
+const baseURL = "https://localhost:8080/api";
+//const baseURL = "https://localhost:7139/api";
 
 export function PostJson<T>(url: string, object: object): Promise<AxiosResponse<T, any>> {
 	const body = JSON.stringify(object);

@@ -2,7 +2,7 @@ import updateProductReducer from './update-product-slice';
 import { configureStore } from '@reduxjs/toolkit'
 import managementPageReducer from './management-page-slice'
 import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 export const store = configureStore({
   reducer: {

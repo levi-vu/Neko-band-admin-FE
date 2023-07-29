@@ -2,17 +2,19 @@ import Table, { ColumnsType } from "antd/es/table";
 import { Language } from "../../../assets/language/vietnam";
 import { useQuery } from "react-query";
 import Warning from "../../../components/warning/warning.component";
-import { ProductItemTable } from "../../../models/interfaces/product/product-item-table";
+import { ProductItemTable, TableProducts } from "../../../models/interfaces/product/product-table";
 import { getProducts } from "../../../services/product-service";
 import { LoadingOutlined } from "@ant-design/icons";
 import ActionProductTable from "./action.component";
+import { useEffect, useState } from "react";
 
 const columns: ColumnsType<ProductItemTable> = [
 	{
 		title: Language.images,
 		dataIndex: "image",
-		render: (_, record) => <img src={record.image} width={80} />,
+		render: (_, record) => <img src={record.image} height={50} />,
 		width: 100,
+		key: "image",
 	},
 	{
 		title: Language.code,
@@ -64,19 +66,27 @@ const columns: ColumnsType<ProductItemTable> = [
 	},
 ];
 function TableProduct() {
-	const { isLoading, error, data } = useQuery<ProductItemTable[]>("get-products", async () => await getProducts().then((res) => res.result), {
-		retry: false,
-	});
+	const [page, setPage] = useState(1);
+	const { isLoading, error, data, refetch } = useQuery<TableProducts>(
+		["get-products", page],
+		async () => await getProducts(page).then((res) => res.result)
+	);
+
+	useEffect(() => {
+		refetch();
+	}, [page]);
 
 	if (error) return <Warning />;
 	return (
 		<div className="table-product">
 			<Table
+				pagination={{ pageSize: 10, current: page, size: "small", total: data?.total }}
 				size="small"
 				columns={columns}
-				dataSource={data}
-				rowKey={(record: ProductItemTable) => record.productCode}
+				dataSource={data?.products}
+				rowKey={(record: ProductItemTable) => record.productId}
 				loading={{ spinning: isLoading, indicator: <LoadingOutlined style={{ fontSize: 24 }} spin /> }}
+				onChange={(page) => setPage(page.current!)}
 			/>
 		</div>
 	);
