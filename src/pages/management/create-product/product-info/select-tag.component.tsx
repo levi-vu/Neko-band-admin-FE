@@ -37,7 +37,8 @@ function SelectTags({ value, index, onChange, remove }: PriceInputProps) {
 		triggerChange();
 	};
 
-	const onTagNameChange = (tagName: string) => {
+	const onTagNameChange = (tagId: string) => {
+		const tagName = state.TagOptions.find((t) => t.value === Number(tagId))!.label?.toString();
 		setTagName(tagName);
 		triggerChange();
 	};

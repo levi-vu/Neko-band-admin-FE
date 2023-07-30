@@ -4,8 +4,8 @@ import { Category, Source, Tag } from "../models/interfaces/product/product-side
 import { Get, GetWithParams, PostJson } from "../utils/http-helper";
 import { GeneralItem } from "../models/interfaces/general-item";
 import { ProductRequest } from "../models/interfaces/product/product";
-import { TableProducts } from "../models/interfaces/product/product-table";
 import { VariantSearchResult } from "../models/interfaces/variant/variant-search-result";
+import { TableProducts } from "../models/interfaces/product/product-table";
 
 export const getProducts = async (page: number): Promise<Response<TableProducts>> => {
 	const response = await GetWithParams<Response<TableProducts>>("product", { page });

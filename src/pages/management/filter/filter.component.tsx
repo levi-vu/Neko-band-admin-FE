@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect } from "react";
 import Popup from "../../../components/popup/popup.component";
 import { PopupType } from "../../../models/types/popup.type";
 import { Language } from "../../../assets/language/vietnam";
@@ -9,7 +9,6 @@ import { DefaultOptionType } from "antd/es/select";
 import { closePopupProduct, openCreateProduct, setOptions } from "../../../store/management-page-slice";
 import LiveSearch from "./live-search-product.component";
 import { useSelector } from "react-redux";
-import MultiSelect from "../../../components/multi-select/multi-select.component";
 
 const CreateProduct = React.lazy(() => import("../create-product/update-product.component"));
 export default function Filter() {
