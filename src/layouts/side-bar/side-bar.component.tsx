@@ -1,22 +1,21 @@
-import {Menu} from "antd";
+import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import MenuData from "./menu-data.";
 import "./side-bar.styles.scss";
-import {useNavigate} from "react-router-dom";
-import ReactLogo from "../../assets/react.svg";
+import logo from "../../assets/logo.svg";
 
 const SideBar = () => {
-  const [collapsed, setCollapsed] = useState<boolean>(false);
-  const navigate = useNavigate();
-  return (
-    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} className='menu-theme' breakpoint='xs'>
-      <div className='logo'>
-        <img src={ReactLogo} alt='React Logo' />
-      </div>
-      <Menu onClick={({key}) => navigate(key)} defaultSelectedKeys={["form"]} mode='inline' items={MenuData} theme='dark' />
-    </Sider>
-  );
+	const navigate = useNavigate();
+	const firstPath = window.location.pathname.split("/");
+	return (
+		<Sider collapsible breakpoint="xs" width={"12vw"}>
+			<div className="logo">
+				<img src={logo} alt="Logo" className="logo-svg" onClick={() => navigate("")} />
+			</div>
+			<Menu theme="dark" onClick={({ key }) => navigate(key)} selectedKeys={[firstPath[1]]} mode="inline" items={MenuData} />
+		</Sider>
+	);
 };
 
 export default SideBar;

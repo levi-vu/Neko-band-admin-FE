@@ -1,9 +1,7 @@
 export type PopupType = {
-    isOpen: boolean;
-    title: string;
-    width: string;
-    height: string;
-    content: React.ReactElement;
-    handleActionClose: (closePopup: boolean) => void;
-  };
-  
+  isOpen: boolean;
+  title: string;
+  content: React.ReactNode;
+  width: string;
+  handleActionClose: () => void;
+};

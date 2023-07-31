@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  nginx: nginx:1.23.3
+    ports:
+        - 80:80
+    volumes:
+      - ../dist:/usr/share/nginx/html
+      - ./default.conf:/etc/nginx/conf.d/default.conf

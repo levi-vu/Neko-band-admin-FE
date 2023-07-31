@@ -1,24 +1,42 @@
 body {
-  margin: unset;
+	margin: unset;
+	// background-color: rgb(240, 242, 245);
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .layout {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 
 .div-flex {
-  display: flex;
+	display: flex;
 }
 
 .content {
-  padding: 10px;
-  height: 100%;
+	padding: 10px;
+	height: 80%;
 }
 
-.ant-alert{
-  height: fit-content;
+.ant-alert {
+	height: fit-content;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(#aa80ee, #8c3ef1);
+	border-radius: 10px;
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	background: #333;
+	background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }

@@ -1,9 +1,16 @@
 .logo {
-    height: 12vh;
-    text-align: center;
-    padding: 25px;
-  }
+	height: 10vh;
+	text-align: center;
+}
 
-  .ant-menu-title-content {
-    font-weight: bold;
-  }
+.logo-svg {
+	border-radius: 75px;
+	height: 40px;
+	position: relative;
+	top: 25%;
+	cursor: pointer;
+}
+
+.ant-menu-title-content {
+	font-weight: bold;
+}

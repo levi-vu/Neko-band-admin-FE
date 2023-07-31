@@ -1,28 +1,33 @@
+import { Modal } from "antd";
 import { PopupType } from "../../models/types/popup.type";
-import "./popup.styles.scss";
+import { createContext, useMemo } from "react";
 
+type ModelContextType = {
+	closeAction: () => void;
+};
+export const ModalContext = createContext<ModelContextType | null>(null);
 function Popup(props: PopupType) {
-  const { isOpen, title, width, content, handleActionClose } = props;
-  return (
-    <>
-      {isOpen ? (
-        <div>
-          <div className='popup-backdrop'></div>
-          <div className='popup'>
-            <div className='popup-content' style={{ width: width }}>
-              <div className='popup-header'>
-                <span className='popup-title'>{title}</span>
-                <button className='button-close' onClick={() => handleActionClose(false)}>
-                  x
-                </button>
-              </div>
-              <div className='popup-body'>{content}</div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
+	const { isOpen, title, content, width, handleActionClose } = props;
+	const contextValue = useMemo<ModelContextType>(() => ({ closeAction: handleActionClose }), [content]);
+	return (
+		<>
+			{isOpen ? (
+				<ModalContext.Provider value={contextValue}>
+					<Modal
+						width={width}
+						style={{ top: "5vh", maxHeight: "80%" }}
+						title={title}
+						open={true}
+						onCancel={() => handleActionClose()}
+						footer={<></>}
+						maskClosable={false}
+					>
+						{content}
+					</Modal>
+				</ModalContext.Provider>
+			) : null}
+		</>
+	);
 }
 
 export default Popup;
