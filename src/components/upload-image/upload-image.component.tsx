@@ -36,6 +36,7 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 					imageName: `${preFix}-${file.name.replaceAll(" ", "")}`,
 					source,
 					url: "",
+					thumbnailUrl: "",
 				};
 				flushSync(() => {
 					images.current = [...images.current, image];
@@ -81,7 +82,8 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 				listType="picture-card"
 				accept="image/png, image/jpeg"
 				defaultFileList={images.current.map(
-					(image) => ({ url: image.source ?? image.url, name: image.imageName, status: "done", uid: uniqueId() } as UploadFile)
+					(image) =>
+						({ url: image.source ?? image.url, thumbUrl: image.thumbnailUrl, name: image.imageName, status: "done", uid: uniqueId() } as UploadFile)
 				)}
 				onPreview={handlePreview}
 				multiple

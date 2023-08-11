@@ -1,4 +1,5 @@
 export const Language = {
+    loginFailed: "Mật khẩu hoặc tên tài khoản sai",
     createProduct: 'Tạo sản phẩm',
     updateProduct: 'Cập nhật sản phẩm',
     code: 'Mã',
@@ -67,5 +68,7 @@ export const Language = {
     addAttribute: 'Thêm thuộc tính',
     confirmRemoveProduct: 'Bạn có chắc muốn xóa sản phẩm: ',
     totalResults: 'Kết quả',
-    clickForMore: 'Hiển thị tất cả'
+    clickForMore: 'Hiển thị tất cả',
+    occurError: 'Đã xảy ra lỗi! vui lòng liên hệ với Admin.',
+    SessionExpired: "Phiên của bạn đã hết hạn! Vui lòng đăng nhập lại",
 }

@@ -1,24 +1,34 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
+import { message } from "antd";
+import { Language } from "../assets/language/vietnam";
+import { redirect } from "react-router-dom";
 
-const baseURL = import.meta.env.PROD ? "/api" : "https://localhost:7139/api";
+const messageBox = message;
 
-export function PostJson<T>(url: string, object: object): Promise<AxiosResponse<T, any>> {
-	const body = JSON.stringify(object);
+const baseURL = import.meta.env.PROD ? "/api" : "http://localhost:5183/api";
 
-	return axios
-		.create({
-			baseURL: baseURL,
-			headers: { "X-Requested-With": "XMLHttpRequest", "Content-Type": "application/json" },
-			withCredentials: true,
-		})
-		.post<T>(url, body);
-}
+export const AxiosInstance = axios.create({
+	baseURL,
+	headers: { "X-Requested-With": "XMLHttpRequest", "Content-Type": "application/json" },
+});
 
-export function Get<T>(url: string): Promise<AxiosResponse<T, any>> {
-	return axios.create({ baseURL: baseURL }).get<T>(url);
-}
+AxiosInstance.defaults.withCredentials = true;
 
-export function GetWithParams<T>(url: string, object: object): Promise<AxiosResponse<T, any>> {
-	//const params = JSON.stringify(object);
-	return axios.create({ baseURL: baseURL }).get<T>(url, { params: object });
-}
+export const setAxiosInterceptors = () => {
+	AxiosInstance.interceptors.response.use(
+		(response) => response,
+		(error) => {
+			const { response } = error;
+			if (typeof response === "undefined" || response.status === 500 || response.status === 404) {
+				messageBox.error({ content: Language.occurError, key: "error", duration: 60000 });
+				return response;
+			}
+			if (response.status === 401) {
+				messageBox.error({ content: Language.SessionExpired, key: "need-re-login" });
+				redirect("/login");
+				return response;
+			}
+			return Promise.reject(error);
+		}
+	);
+};

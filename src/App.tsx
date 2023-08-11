@@ -1,23 +1,18 @@
 import { Layout } from "antd";
 import "./index.scss";
 import Router from "./layouts/routers/routers.components";
-import SideBar from "./layouts/side-bar/side-bar.component";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-import Header from "./layouts/header/header.component";
+import AuthProvider from "react-auth-kit/dist/AuthProvider";
 
 const App = () => {
 	return (
 		<Layout style={{ minHeight: "100vh" }}>
-			<SideBar></SideBar>
-			<Layout className="site-layout">
-				<Header />
-				<div className="content">
-					<Provider store={store}>
-						<Router></Router>
-					</Provider>
-				</div>
-			</Layout>
+			<AuthProvider authType={"cookie"} authName={"_auth"} cookieDomain={window.location.hostname} cookieSecure>
+				<Provider store={store}>
+					<Router></Router>
+				</Provider>
+			</AuthProvider>
 		</Layout>
 	);
 };

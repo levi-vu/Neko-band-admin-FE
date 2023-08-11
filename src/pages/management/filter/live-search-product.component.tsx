@@ -14,8 +14,6 @@ function LiveSearch() {
 
 	useDebounce(() => getItems(), 300, [inputValue]);
 
-	console.log(openDropdown);
-
 	const getItems = () => {
 		if (inputValue == "") {
 			{

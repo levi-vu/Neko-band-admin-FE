@@ -1,0 +1,39 @@
+.login-form {
+	max-width: 300px;
+	//margin-block: auto;
+}
+.login-form-button {
+	width: 100%;
+	background-color: #dec98c;
+}
+
+.carousel {
+	width: 500px;
+}
+.slick-list {
+	border-radius: 5px;
+	//	margin: auto;
+}
+
+.login-page-content {
+	height: 500px;
+	width: 780px;
+	margin: auto;
+	display: flex;
+	gap: 50px;
+	justify-content: flex-end;
+	align-items: center;
+	background-color: #333e2c;
+	border-radius: 10px;
+	box-shadow: 0px 5px 5px #333e2c;
+}
+
+.login {
+	background-color: #dec98c;
+	height: 100vh;
+	display: flex;
+}
+
+.login-failed {
+	color: #dec98c;
+}
