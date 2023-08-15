@@ -1,40 +1,38 @@
-name: Build
+name: Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "master" ]
 
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
     steps:
-      - 
-        name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - 
-        name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 20.5.1
-
-      - 
-        name: Install Dependencies
-        run: npm install
-
-      - 
-        name: Run Vite Build
-        run: npm run build
-        
-      - 
-        name: Deploy to VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: root
-          key: ${{ secrets.SSH_PASSWORD }}
-          port: 22
-          script: |
-              rm -rf ~root/production/FE/dist
-              mkdir -p ~root/production/FE/dist
-              scp -r dist/* root@${{ secrets.SSH_HOST }}:~root/production/FE/dist
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm install
+    - run: npm run build
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: root
+        key: ${{ secrets.SSH_PASSWORD }}
+        port: 22
+        script: |
+            rm -rf ~root/production/FE/dist
+            mkdir -p ~root/production/FE/dist
+            scp -r dist/* root@${{ secrets.SSH_HOST }}:~root/production/FE/dist
+              
+            cd production
+            sudo docker compose down 
+            sudo docker compose up -d
