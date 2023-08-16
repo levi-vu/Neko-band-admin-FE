@@ -24,6 +24,12 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 		setPreviewTitle(file.name);
 	};
 
+	const closePreview = () => {
+		setPreviewOpen(false);
+		setPreviewTitle("");
+		setPreviewImage("");
+	};
+
 	const handleFileChange = (info: any) => {
 		const { file, onSuccess } = info;
 		new Compressor(file as File, {
@@ -36,6 +42,7 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 					imageName: `${preFix}-${file.name.replaceAll(" ", "")}`,
 					source,
 					url: "",
+					thumbnailUrl: "",
 				};
 				flushSync(() => {
 					images.current = [...images.current, image];
@@ -81,7 +88,8 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 				listType="picture-card"
 				accept="image/png, image/jpeg"
 				defaultFileList={images.current.map(
-					(image) => ({ url: image.source ?? image.url, name: image.imageName, status: "done", uid: uniqueId() } as UploadFile)
+					(image) =>
+						({ url: image.source ?? image.url, thumbUrl: image.thumbnailUrl, name: image.imageName, status: "done", uid: uniqueId() } as UploadFile)
 				)}
 				onPreview={handlePreview}
 				multiple
@@ -91,7 +99,7 @@ function UploadImage({ value = [], onChange, preFix }: FormItemType<Image[]> & {
 					Upload
 				</>
 			</Upload>
-			<Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
+			<Modal open={previewOpen} title={previewTitle} footer={null} onCancel={closePreview}>
 				<img alt="example" style={{ width: "100%" }} src={previewImage} />
 			</Modal>
 		</>

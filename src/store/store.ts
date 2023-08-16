@@ -1,15 +1,16 @@
 import updateProductReducer from './update-product-slice';
 import { configureStore } from '@reduxjs/toolkit'
-import managementPageReducer from './management-page-slice'
+import managementPageReducer from './management-page-slice';
+import userReducer from './user-slice';
 import { useDispatch } from 'react-redux';
-import isEqual from 'lodash/isEqual';
 
 export const store = configureStore({
   reducer: {
     updateProduct: updateProductReducer,
-    ManagementPage: managementPageReducer
+    ManagementPage: managementPageReducer,
+    User: userReducer
   },
-  devTools: !isEqual(process.env.NODE_ENV, 'production')
+  devTools: !import.meta.env.PROD
 })
 
 export type RootState = ReturnType<typeof store.getState>;

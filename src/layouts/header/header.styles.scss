@@ -1,10 +1,20 @@
 .header-container {
 	height: 5vh;
-	background-color: #001529;
+	//background-color: #001529;
 }
 
 .icon-home {
 	margin-left: 10px;
 	height: 40px;
 	width: 40px;
+}
+
+.user {
+	display: flex;
+	justify-content: end;
+	gap: 10px;
+}
+
+.user-name {
+	cursor: pointer;
 }

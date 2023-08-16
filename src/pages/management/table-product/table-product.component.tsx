@@ -67,23 +67,23 @@ const columns: ColumnsType<ProductItemTable> = [
 ];
 function TableProduct() {
 	const [page, setPage] = useState(1);
-	const { isLoading, error, data, refetch } = useQuery<TableProducts>(
+	const { isLoading, data, refetch } = useQuery<TableProducts>(
 		["get-products", page],
 		async () => await getProducts(page).then((res) => res.result)
+		//{ retry: 1 }
 	);
 
 	useEffect(() => {
 		refetch();
 	}, [page]);
 
-	if (error) return <Warning />;
 	return (
 		<div className="table-product">
 			<Table
 				pagination={{ pageSize: 10, current: page, size: "small", total: data?.total }}
 				size="small"
 				columns={columns}
-				dataSource={data?.products}
+				dataSource={data ? data.products : []}
 				rowKey={(record: ProductItemTable) => record.productId}
 				loading={{ spinning: isLoading, indicator: <LoadingOutlined style={{ fontSize: 24 }} spin /> }}
 				onChange={(page) => setPage(page.current!)}

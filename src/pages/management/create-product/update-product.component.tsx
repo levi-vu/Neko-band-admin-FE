@@ -30,15 +30,54 @@ function CreateProduct({ id }: { id: number }) {
 		};
 	}, []);
 
+	const notificationProductCreated = (duration: number) => {
+		const key = "Notification-Product-Created";
+		const content = state.productId > 0 ? Language.ProductUpdated : Language.ProductCreated;
+		message.success({
+			key: "Notification-Product-Created",
+			content: (
+				<>
+					{content}
+					<br />
+					{Language.ListWillUpdateAfter}
+					{duration}s
+				</>
+			),
+		});
+
+		const updateMessage = setInterval(() => {
+			duration -= 1;
+			if (duration == 0) {
+				clearInterval(updateMessage);
+			} else {
+				message.success({
+					key,
+
+					content: (
+						<>
+							{content}
+							<br />
+							{Language.ListWillUpdateAfter}
+							{duration}s
+						</>
+					),
+					duration: 1,
+				});
+			}
+		}, 900);
+	};
+
 	useEffect(() => {
 		if (state.isSuccess) {
+			notificationProductCreated(5);
 			closeModal?.closeAction();
-			message.success({ content: state.productId > 0 ? Language.updateProductSucceeded : Language.createProductSucceeded, key: Language.create });
-			queryClient.invalidateQueries(["get-products"]);
+			setTimeout(() => {
+				queryClient.invalidateQueries(["get-products"]);
+			}, 4500);
 		}
 
 		if (state.isError) {
-			message.error({ content: state.productId > 0 ? Language.updateProductFailed : Language.createProductFailed, key: Language.update });
+			message.error({ key: Language.update, content: state.productId > 0 ? Language.updateProductFailed : Language.createProductFailed });
 		}
 	}, [state.isSuccess, state.isError]);
 
