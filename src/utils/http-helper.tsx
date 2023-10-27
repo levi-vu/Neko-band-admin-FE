@@ -1,7 +1,6 @@
 import axios from "axios";
 import { message } from "antd";
 import { Language } from "../assets/language/vietnam";
-import { redirect } from "react-router-dom";
 
 const messageBox = message;
 
@@ -21,11 +20,6 @@ export const setAxiosInterceptors = () => {
 			const { response } = error;
 			if (typeof response === "undefined" || response.status === 500 || response.status === 404) {
 				messageBox.error({ content: Language.occurError, key: "error", duration: 60000 });
-				return response;
-			}
-			if (response.status === 401) {
-				messageBox.error({ content: Language.SessionExpired, key: "need-re-login" });
-				redirect("/login");
 				return response;
 			}
 			return Promise.reject(error);

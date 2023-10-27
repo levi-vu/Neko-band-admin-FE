@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-nekobandfe-dev-155614-authRole",
+      "UnauthRoleArn": "arn:aws:iam::834408615092:role/amplify-nekobandfe-dev-155614-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::834408615092:role/amplify-nekobandfe-dev-155614-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-nekobandfe-dev-155614-deployment",
+      "UnauthRoleName": "amplify-nekobandfe-dev-155614-unauthRole",
+      "StackName": "amplify-nekobandfe-dev-155614",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:834408615092:stack/amplify-nekobandfe-dev-155614/afe6dd80-74a6-11ee-9165-0ad387425108",
+      "AmplifyAppId": "d1kjnn37w1jz48"
+    },
+    "categories": {
+      "auth": {
+        "nekobandfebc7544c3": {}
+      }
+    }
+  }
+}

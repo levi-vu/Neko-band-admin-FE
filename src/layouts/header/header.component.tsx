@@ -1,11 +1,10 @@
 import { Avatar, Dropdown } from "antd";
 import "./header.styles.scss";
 import { UserOutlined } from "@ant-design/icons";
-import { useAuthUser, useSignOut } from "react-auth-kit";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 export default function Header() {
-	const auth = useAuthUser();
-	const signOut = useSignOut();
+	const { user, signOut } = useAuthenticator((context) => [context.user]);
 	return (
 		<div className="header-container">
 			<div className="user">
@@ -24,7 +23,7 @@ export default function Header() {
 						],
 					}}
 				>
-					<div className="user-name">{auth() ? auth()!.userName : ""}</div>
+					<div className="user-name">{user ? user.username : ""}</div>
 				</Dropdown>
 			</div>
 		</div>
